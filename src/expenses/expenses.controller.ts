@@ -11,6 +11,11 @@ export class ExpensesController {
     return this.expensesService.findAll();
   }
 
+  @Get('metrics')
+  async metrics(): Promise<Expenses> {
+    return this.expensesService.metrics();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Expenses> {
     return this.expensesService.findOne(parseInt(id));
