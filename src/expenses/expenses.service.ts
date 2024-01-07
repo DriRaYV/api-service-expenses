@@ -30,7 +30,15 @@ export class ExpensesService {
       [id],
     );
   }
-
+  async metrics(): Promise<Expenses> {
+    return this.expensesRepository.query(
+      `SELECT SUM(e.price) AS remains, 
+      (SELECT SUM(price) FROM expenses where price < 0) AS expenses,
+      (SELECT SUM(price) FROM expenses where price > 0) AS entries 
+      FROM expenses e
+       `,
+    );
+  }
   async create(createExpensesDto: CreateExpensesDto): Promise<Expenses> {
     return this.expensesRepository.save(createExpensesDto);
   }
